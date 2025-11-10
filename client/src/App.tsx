@@ -3,6 +3,8 @@ import { io } from "socket.io-client";
 
 import "./App.css";
 
+import AppRouter from "../routes/AppRouter.tsx";
+
 function App() {
   useEffect(() => {
     const socket = io(import.meta.env.VITE_BACKEND_URL, {
@@ -20,7 +22,7 @@ function App() {
   }, []);
   return (
     <>
-      <h1>Socket.IO Connected Frontend</h1>
+      <AppRouter />
     </>
   );
 }
