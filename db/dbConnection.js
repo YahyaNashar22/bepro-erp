@@ -10,9 +10,6 @@ async function databaseConnection() {
     catch (error) {
         console.error("MongoDB connection error:", error);
     }
-    finally {
-        await mongoose.disconnect();
-    }
 }
 
 export default databaseConnection;
