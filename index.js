@@ -2,6 +2,7 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import "dotenv/config";
+import databaseConnection from "./db/dbConnection.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -25,4 +26,6 @@ io.on(
 
 server.listen(port, () => {
     console.log("listening on port", port);
-})
+});
+
+databaseConnection();
