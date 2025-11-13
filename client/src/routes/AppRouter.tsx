@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router";
 
 import ProtectedRoutes from "./ProtectedRoutes.tsx";
-import type { IUser } from "../interfaces/IUser.ts";
+import PublicRoute from "./PublicRoutes.tsx";
 
 const AppRouter = () => {
   const Home = lazy(() => import("../pages/home/Home.tsx"));
@@ -12,7 +12,6 @@ const AppRouter = () => {
     () => import("../pages/unauthorized/Unauthorized.tsx")
   );
 
-  const user: IUser = {username: 'yahya', role: 'user'};
   return (
     <Suspense
       fallback={
@@ -22,14 +21,12 @@ const AppRouter = () => {
       }
     >
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route element={<PublicRoute />}>
+          <Route path="/login" element={<Login />} />
+        </Route>
 
         {/* user signed in  */}
-        <Route
-          element={
-            <ProtectedRoutes user={user} allowedRoles={["admin", "user"]} />
-          }
-        >
+        <Route element={<ProtectedRoutes allowedRoles={["admin", "user"]} />}>
           <Route path="/" element={<Home />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
         </Route>

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 
 import User from "../models/user.model.js"
+import { signAccessToken, signRefreshToken, verifyAccessToken, verifyRefreshToken } from "../utils/jwt.utils.js";
 
 // create user 
 export const createUser = async (req, res) => {
@@ -32,17 +33,36 @@ export const login = async (req, res) => {
         const { username, password } = req.body;
         const user = await User.findOne({ username });
 
-        if (!user) return res.status(404).json({message: "user not found!"});
+        if (!user) return res.status(404).json({ message: "user not found!" });
 
-        const isCorrectCredentials =  bcrypt.compareSync(password, user.password);
+        const isCorrectCredentials = bcrypt.compareSync(password, user.password);
 
-        if (!isCorrectCredentials) return res.status(400).json({message: "incorrect password"});
+        if (!isCorrectCredentials) return res.status(400).json({ message: "incorrect password" });
 
-        
+        const accessToken = signAccessToken(user);
+        const refreshToken = signRefreshToken(user);
 
-        return res.status(200).json({
-            message: "login successful",
-        })
+        return res
+            .cookie(
+                "bepro_erp_access_token", accessToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "strict",
+                maxAge: 15 * 60 * 1000,
+            })
+            .cookie(
+                "bepro_erp_refresh_token", refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "strict",
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+            })
+            .status(200)
+            .json({
+                message: "login successful",
+                accessToken,
+                payload: user
+            })
 
     } catch (error) {
         return res.status(500).json({
@@ -50,6 +70,36 @@ export const login = async (req, res) => {
             error: error
         })
     }
+}
+
+
+export const refreshToken = async (req, res) => {
+    try {
+        const token = req.cookies.bepro_erp_refresh_token;
+        if (!token) return res.status(401).json({ message: "Missing refresh token" });
+
+        const decoded = verifyRefreshToken(token);
+        const user = await User.findById(decoded.id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        return res.status(200)
+            .json({
+                message: "fetched login user",
+                payload: user,
+            })
+
+    } catch (error) {
+        res.status(403).json({
+            message: "Invalid or expired refresh token",
+            error: error
+        });
+    }
+}
+
+export const logout = (req, res) => {
+    res.clearCookie("bepro_erp_refresh_token", { path: "/" })
+        .status(200)
+        .json({ message: "Logged out successfully" });
 }
 
 

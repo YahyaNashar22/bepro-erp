@@ -1,12 +1,20 @@
 import { Navigate, Outlet } from "react-router";
-import type {IUser} from "../interfaces/IUser.ts";
+import { useAuth } from "../context/AuthContext.tsx";
 
 interface IProtectedRoutesProps {
-  user: IUser | null;
   allowedRoles?: ("admin" | "user")[];
 }
 
-const ProtectedRoutes = ({ user, allowedRoles }: IProtectedRoutesProps) => {
+const ProtectedRoutes = ({ allowedRoles }: IProtectedRoutesProps) => {
+  const { user, authLoading } = useAuth();
+
+  console.log("protected: ", user);
+
+  if (authLoading) {
+    // still checking auth
+    return <h1>Checking authentication...</h1>;
+  }
+
   if (!user) {
     // Not logged in
     return <Navigate to="/login" replace />;

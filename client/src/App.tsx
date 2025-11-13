@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { io } from "socket.io-client";
 
 import "./App.css";
-
-import AppRouter from "../routes/AppRouter.tsx";
+import AppRouter from "./routes/AppRouter";
 
 function App() {
+  // socket connection
   useEffect(() => {
     const socket = io(import.meta.env.VITE_BACKEND_URL, {
       transports: ["websocket"],

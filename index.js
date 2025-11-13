@@ -2,6 +2,7 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 
 import databaseConnection from "./db/dbConnection.js";
@@ -12,10 +13,11 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 app.use(cors({
-    origin: "*",
+    origin: ["http://localhost:5173"],
     credentials: true,
     optionsSuccessStatus: 200
 }));
+app.use(cookieParser());
 app.use(express.json());
 
 
