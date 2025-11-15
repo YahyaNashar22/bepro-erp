@@ -26,12 +26,9 @@ const Login = () => {
     }
   };
   return (
-    <main className="h-screen">
-      <form
-        onSubmit={handleSubmit}
-        className="h-100 flex-col g-4 justify-center"
-      >
-        <label className="g-2">
+    <main className="h-screen flex items-center justify-center">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80">
+        <label className="flex flex-col gap-1">
           Username
           <input
             type="text"
@@ -40,7 +37,8 @@ const Login = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </label>
-        <label className="g-2">
+
+        <label className="flex flex-col gap-1">
           Password
           <input
             type="password"
@@ -49,10 +47,15 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button type="submit" disabled={loading}>
+
+        <button
+          type="submit"
+          disabled={loading}
+        >
           {loading ? "Logging in..." : "Login"}
         </button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        {error && <p className="text-red-600">{error}</p>}
       </form>
     </main>
   );
