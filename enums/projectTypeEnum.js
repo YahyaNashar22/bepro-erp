@@ -1,0 +1,15 @@
+export const ProjectType =
+    ["sale"
+        , "purchase"
+        , "rental"
+        , "subscription"
+        , "service"
+        , "consulting"
+        , "maintenance"
+        , "upgrade"
+        , "renewal"
+        , "refund"
+        , "exchange"
+        , "trial"
+        , "lead"
+        , "follow_up"]

@@ -16,6 +16,7 @@ export interface IProject {
   status: ProjectStatusEnum;
   price: string;
   quotation: string;
+  files: string[];
   currency: CurrencyEnum;
   client_id: IClient[];
 }

@@ -1,0 +1,16 @@
+export const ProjectSourceEnum =
+    ["not selected"
+        , "website"
+        , "facebook"
+        , "instagram"
+        , "tiktok"
+        , "google_ads"
+        , "referral"
+        , "walk_in"
+        , "email_campaign"
+        , "cold_call"
+        , "whatsapp"
+        , "linkedin"
+        , "partner"
+        , "event"
+        , "other"];
