@@ -6,10 +6,11 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { IAuthContext } from "../interfaces/IAuthContext";
-import type { IUser } from "../interfaces/IUser";
 import axios from "axios";
 
+import type { IAuthContext } from "../interfaces/IAuthContext";
+import type { IUser } from "../interfaces/IUser";
+import api from "../utils/axiosInstance";
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -19,8 +20,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (username: string, password: string) => {
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/user/login`,
+      const res = await api.post(
+        `/user/login`,
         { username, password },
         { withCredentials: true }
       );
@@ -38,11 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/user/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await api.post(`/user/logout`, {}, { withCredentials: true });
     } catch (err) {
       console.error("Error logging out:", err);
     } finally {
@@ -57,12 +54,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const refresh = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/user/refresh`,
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await api.get(`/user/refresh`, {
+          withCredentials: true,
+        });
 
         if (!isMounted) return;
 

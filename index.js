@@ -6,7 +6,9 @@ import cookieParser from "cookie-parser";
 import "dotenv/config";
 
 import databaseConnection from "./db/dbConnection.js";
+
 import userRouter from "./routes/user.routes.js";
+import uploadRouter from "./routes/upload.routes.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -19,6 +21,7 @@ app.use(cors({
 }));
 app.use(cookieParser());
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 
 const port = process.env.PORT || 5000;
@@ -40,7 +43,8 @@ io.on(
 );
 
 // routes
-app.use("/user", userRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/upload", uploadRouter)
 
 server.listen(port, () => {
     console.log("listening on port", port);
