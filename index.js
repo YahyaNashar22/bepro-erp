@@ -9,6 +9,7 @@ import databaseConnection from "./db/dbConnection.js";
 
 import userRouter from "./routes/user.routes.js";
 import uploadRouter from "./routes/upload.routes.js";
+import projectRouter from "./routes/project.routes.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -45,7 +46,8 @@ io.on(
 
 // routes
 app.use("/api/v1/user", userRouter);
-app.use("/api/v1/upload", uploadRouter)
+app.use("/api/v1/upload", uploadRouter);
+app.use("/api/v1/project", projectRouter);
 
 server.listen(port, () => {
     console.log("listening on port", port);
