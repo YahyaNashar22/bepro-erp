@@ -12,7 +12,10 @@ import uploadRouter from "./routes/upload.routes.js";
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+export const io = new Server(server, {
+    origin: ["http://localhost:5173"],
+    credentials: true,
+});
 
 app.use(cors({
     origin: ["http://localhost:5173"],
@@ -27,9 +30,7 @@ app.use("/uploads", express.static("uploads"));
 const port = process.env.PORT || 5000;
 
 // health status
-app.get(
-    "/health", (req, res) => res.send("<h1>server running</h1>")
-);
+app.get("/health", (req, res) => res.send("<h1>server running</h1>"));
 
 // socket events
 io.on(
