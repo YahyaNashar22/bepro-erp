@@ -120,3 +120,62 @@ export const getAllUsers = async (req, res) => {
         })
     }
 }
+
+
+export const changeRole = async (req, res) => {
+    try {
+        const { operatorId, userId, role } = req.body;
+
+        const operator = await User.findById(operatorId);
+
+        if (!operator) return res.status(404).json({ message: "admin account not found" });
+        if (operator.role !== "admin") return res.status(401).json({ message: "not authorized to change role" });
+
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: "user account not found" });
+
+        user.role = role;
+        await user.save();
+
+        return res.status(200).json({
+            message: "user role updated",
+            payload: user
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: `problem updating user role: ${error.message}`,
+            error: error
+        })
+    }
+}
+
+export const changePassword = async (req, res) => {
+    try {
+        const { userId, oldPassword, newPassword } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: "user account not found" });
+
+        const isCorrectCredentials = bcrypt.compareSync(oldPassword, user.password);
+
+        if (!isCorrectCredentials) return res.status(400).json({ message: "incorrect password" });
+
+        const salt = bcrypt.genSaltSync(10);
+        const NewHashedPassword = bcrypt.hashSync(newPassword, salt);
+
+        user.password = NewHashedPassword;
+        await user.save();
+
+        return res.status(200).json({
+            message: "user password changed",
+            payload: user
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: `problem changing user password: ${error.message}`,
+            error: error
+        })
+    }
+}

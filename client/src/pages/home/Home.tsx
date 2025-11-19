@@ -1,12 +1,13 @@
 import SidePanel from "../../components/sidePanel/SidePanel";
-import { useAuth } from "../../context/AuthContext";
 
 const Home = () => {
-  const { logout } = useAuth();
   return (
-    <main>
-      <h1 onClick={logout}>Home Page</h1>
+    <main className="flex">
       <SidePanel />
+      {/* Content section */}
+      <div className="flex-1 p-6">
+        <h1>project details</h1>
+      </div>
     </main>
   );
 };

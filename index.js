@@ -10,6 +10,9 @@ import databaseConnection from "./db/dbConnection.js";
 import userRouter from "./routes/user.routes.js";
 import uploadRouter from "./routes/upload.routes.js";
 import projectRouter from "./routes/project.routes.js";
+import clientRouter from "./routes/client.routes.js";
+import taskRouter from "./routes/task.routes.js";
+import commentRouter from "./routes/comment.routes.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -33,21 +36,13 @@ const port = process.env.PORT || 5000;
 // health status
 app.get("/health", (req, res) => res.send("<h1>server running</h1>"));
 
-// socket events
-io.on(
-    "connection",
-    (socket) => {
-        // connection event
-        console.log("a user connected");
-        // disconnection event
-        socket.on("disconnect", () => console.log("a user disconnected"));
-    }
-);
-
 // routes
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/upload", uploadRouter);
 app.use("/api/v1/project", projectRouter);
+app.use("/api/v1/client", clientRouter);
+app.use("/api/v1/task", taskRouter);
+app.use("/api/v1/comment", commentRouter);
 
 server.listen(port, () => {
     console.log("listening on port", port);
