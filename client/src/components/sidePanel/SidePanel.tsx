@@ -6,6 +6,8 @@ import { socket } from "../../utils/socket";
 const SidePanel = ({ onChangeView }: { onChangeView: (s: string) => void }) => {
   const { user, logout } = useAuth();
 
+  const isAuthorized = () => user?.role === "admin";
+
   // socket event listeners
   useEffect(() => {
     const handleCreated = (p: IProject) => alert("Project Created: " + p.name);
@@ -34,42 +36,52 @@ const SidePanel = ({ onChangeView }: { onChangeView: (s: string) => void }) => {
       <hr className="border-0 h-px bg-linear-to-r from-white/0 via-white/40 to-white/0 mb-5" />
 
       <div className="flex flex-col gap-3 mb-6">
-        <button
-          className=" text-white py-2 rounded-lg text-left"
-          onClick={() => onChangeView("create_project")}
-        >
-          Create Project
-        </button>
+        {isAuthorized() && (
+          <button
+            className=" text-white py-2 rounded-lg text-left"
+            onClick={() => onChangeView("create_project")}
+          >
+            Create Project
+          </button>
+        )}
 
-        <button
-          className=" text-white py-2 rounded-lg text-left"
-          onClick={() => onChangeView("create_user")}
-        >
-          Create User
-        </button>
+        {isAuthorized() && (
+          <button
+            className=" text-white py-2 rounded-lg text-left"
+            onClick={() => onChangeView("create_user")}
+          >
+            Create User
+          </button>
+        )}
 
-        <button
-          className=" text-white py-2 rounded-lg text-left"
-          onClick={() => onChangeView("create_client")}
-        >
-          Create Client
-        </button>
+        {isAuthorized() && (
+          <button
+            className=" text-white py-2 rounded-lg text-left"
+            onClick={() => onChangeView("create_client")}
+          >
+            Create Client
+          </button>
+        )}
 
         <hr className="border-0 h-px bg-linear-to-r from-white/0 via-white/40 to-white/0" />
 
-        <button
-          className=" text-white py-2 rounded-lg text-left"
-          onClick={() => onChangeView("view_users")}
-        >
-          View Users
-        </button>
+        {isAuthorized() && (
+          <button
+            className=" text-white py-2 rounded-lg text-left"
+            onClick={() => onChangeView("view_users")}
+          >
+            View Users
+          </button>
+        )}
 
-        <button
-          className=" text-white py-2 rounded-lg text-left"
-          onClick={() => onChangeView("view_clients")}
-        >
-          View Clients
-        </button>
+        {isAuthorized() && (
+          <button
+            className=" text-white py-2 rounded-lg text-left"
+            onClick={() => onChangeView("view_clients")}
+          >
+            View Clients
+          </button>
+        )}
 
         <button
           className=" text-white py-2 rounded-lg text-left"
