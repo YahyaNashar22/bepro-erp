@@ -56,7 +56,7 @@ const SidePanel = ({
 
   return (
     <aside className="w-64 h-screen bg-[#1a1a1a] border-r border-gray-700 p-4 flex flex-col">
-      <h2 className="text-xl font-semibold mb-6">Welcome, {user?.username}</h2>
+      <h2 className="text-2xl font-semibold mb-6">Welcome, {user?.username}</h2>
 
       <div className="flex flex-col gap-3 mb-6">
         <button
@@ -79,7 +79,18 @@ const SidePanel = ({
         >
           Create Client
         </button>
+
+        <hr className="border-0 h-px bg-linear-to-r from-white/0 via-white/40 to-white/0" />
+
+        <button
+          className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-left"
+          onClick={() => onChangeView("view_clients")}
+        >
+          View Clients
+        </button>
       </div>
+
+      <hr className="border-0 h-px bg-linear-to-r from-white/0 via-white/40 to-white/0 mb-5" />
 
       {/* Projects accordion */}
       <div className="border border-gray-600 rounded-lg overflow-hidden mb-4">

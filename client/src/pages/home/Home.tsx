@@ -4,6 +4,7 @@ import ProjectForm from "../../components/ProjectForm";
 import ClientForm from "../../components/ClientForm";
 import UserForm from "../../components/UserForm";
 import ProjectViewer from "../../components/projectViewer/ProjectViewer";
+import Clients from "../../components/Clients";
 
 const Home = () => {
   const [activeView, setActiveView] = useState<string>("default");
@@ -24,6 +25,9 @@ const Home = () => {
 
       case "view_project":
         return <ProjectViewer projectId={selectedProjectId} />;
+
+      case "view_clients":
+        return <Clients />;
 
       default:
         return <h1>Select an option from the sidebar</h1>;
