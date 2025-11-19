@@ -24,8 +24,8 @@ export const uploadQuotationController = (req, res) => {
 // controller for images
 export const uploadImageController = (req, res) => {
     imageUpload(req, res, (error) => {
-        if (err) {
-            return res.status(400).json({ message: "Upload failed", error: err.message });
+        if (error) {
+            return res.status(400).json({ message: "Upload failed", error: error.message });
         }
         if (!req.file) {
             return res.status(400).json({ message: "No file provided" });

@@ -6,12 +6,12 @@ import { signAccessToken, signRefreshToken, verifyAccessToken, verifyRefreshToke
 // create user 
 export const createUser = async (req, res) => {
     try {
-        const { username, password, email, role } = req.body;
+        const { username, password, email, role, phone } = req.body;
 
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(password, salt);
 
-        const user = new User({ username, password: hashedPassword, email, role });
+        const user = new User({ username, password: hashedPassword, email, role, phone });
         await user.save();
 
         return res.status(201).json({

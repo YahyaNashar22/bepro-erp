@@ -8,7 +8,7 @@ userRouter.post("/create", createUser);
 userRouter.post("/login", login);
 userRouter.post("/logout", logout);
 userRouter.get("/refresh", refreshToken);
-userRouter.get("/all", getAllUsers);
+userRouter.post("/all", getAllUsers);
 userRouter.patch("/change-role", changeRole);
 userRouter.patch("/change-password", changePassword);
 
